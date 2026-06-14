@@ -104,37 +104,30 @@
             const response = await fetch(window.API_URL + '/api/slider/activas');
             const imagenes = await response.json();
             const heroSlider = document.querySelector('.hero-slider');
-
             if (!heroSlider) return;
-
             if (imagenes.length === 0) {
                 heroSlider.innerHTML = '';
                 heroSlider.style.animation = 'none';
                 return;
             }
-
             let slidesHtml = '';
             imagenes.forEach(img => {
                 slidesHtml += `<div class="slide" style="background-image: url('${img.imagenUrl}');"></div>`;
             });
             heroSlider.innerHTML = slidesHtml;
-
             const totalSlides = imagenes.length;
             const duration = totalSlides * 6;
             const style = document.createElement('style');
             let keyframes = '';
             const step = 100 / totalSlides;
-
             for (let i = 0; i < totalSlides; i++) {
                 const start = i * step;
                 const end = (i + 1) * step;
                 keyframes += `${start}%, ${end}% { transform: translateX(-${i * 100}%); }`;
             }
-
             style.textContent = `@keyframes slideShowDynamic { ${keyframes} }`;
             document.head.appendChild(style);
             heroSlider.style.animation = `slideShowDynamic ${duration}s infinite`;
-
         } catch(e) {
             console.error('Error cargando slider:', e);
         }
