@@ -1,0 +1,55 @@
+# Backend
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+backend/*.log
+
+# Frontend
+frontend/node_modules/
+frontend/.cache/
+frontend/*.log
+
+# IDE
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+*.tmp
+logs/
+
+# Uploads
+imagenes/
+uploads/
+data/
+uploads_temp/
+
+# Database
+*.db
+*.h2.db
+*.mv.db
+*.trace.db
+*.sqlite
+
+# Environment
+.env
+.env.local
+application-local.properties
+application-dev.properties
+
+# Secrets
+*.pem
+*.key
+*.crt
