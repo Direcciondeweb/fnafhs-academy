@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,6 +14,17 @@
             : 'https://fnafhs-academy-backend.onrender.com';
     </script>
     <style>
+        body {
+            padding-top: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(180deg, #4c0867 12%, #370505 40%);
+        }
+        .card {
+            background: rgba(26, 26, 46, 0.97);
+            backdrop-filter: blur(10px);
+        }
         .logo-circle {
             width: 90px;
             height: 90px;
@@ -24,133 +35,240 @@
             justify-content: center;
             margin: 0 auto;
             overflow: hidden;
+            border: 2px solid rgba(208, 252, 11, 0.4);
         }
         .logo-circle img {
             width: 100%;
             height: 100%;
             object-fit: cover;
         }
-        body {
-            padding-top: 0;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            background: linear-gradient(180deg, #4c0867 12%, #370505 40%);
+        .logo-circle-fallback {
+            font-size: 2.5rem;
         }
-        .card {
-            background: rgba(26, 26, 46, 0.95);
-            backdrop-filter: blur(10px);
+        .form-control {
+            background: #1a1a2e !important;
+            border: 1px solid rgba(208, 252, 11, 0.2) !important;
+            color: white !important;
         }
+        .form-control:focus {
+            border-color: rgba(208, 252, 11, 0.6) !important;
+            box-shadow: 0 0 0 0.2rem rgba(208, 252, 11, 0.15) !important;
+        }
+        .form-control::placeholder { color: #666 !important; }
+        .input-group-text {
+            background: #0f0f1e !important;
+            border: 1px solid rgba(208, 252, 11, 0.2) !important;
+        }
+        .btn-login {
+            background: linear-gradient(135deg, #fd0000, #a725bb);
+            border: none;
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        }
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(208, 252, 11, 0.3);
+            color: white;
+        }
+        .card-header { border-bottom: 1px solid rgba(208, 252, 11, 0.15) !important; }
+        .card-footer { border-top: 1px solid rgba(208, 252, 11, 0.15) !important; background: rgba(0,0,0,0.2) !important; }
+        a.text-warning { color: #d0fc0b !important; }
+        a.text-warning:hover { color: white !important; }
+        .toggle-pass {
+            background: #0f0f1e !important;
+            border: 1px solid rgba(208, 252, 11, 0.2) !important;
+            color: #aaa !important;
+        }
+        .toggle-pass:hover { color: #d0fc0b !important; }
     </style>
 </head>
 <body>
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-12 col-sm-8 col-md-6 col-lg-5">
+
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                 <div class="card-header bg-dark text-white text-center border-0 py-4">
-                    <div class="logo-circle mb-3" id="logoContainer"></div>
-                    <h3 class="mb-0 fw-bold">FNAFHS ACADEMY</h3>
-                    <p class="text-warning small mb-0">Panel de Administración</p>
+                    <div class="logo-circle mb-3" id="logoContainer">
+                        <span class="logo-circle-fallback">★</span>
+                    </div>
+                    <h3 class="mb-1 fw-bold" style="color:#d0fc0b;">FNAFHS ACADEMY</h3>
+                    <p class="mb-0" style="color:#aaa; font-size:0.85rem;">Panel de Administración</p>
                 </div>
+
                 <div class="card-body p-4">
-                    <form id="loginForm">
+                    <form id="loginForm" novalidate>
                         <div class="mb-3">
-                            <label class="form-label fw-semibold text-secondary">Usuario</label>
+                            <label class="form-label fw-semibold" style="color:#d0fc0b; font-size:0.85rem;">
+                                <i class="bi bi-person-fill me-1"></i>Usuario
+                            </label>
                             <div class="input-group">
-                                <span class="input-group-text bg-dark text-warning border-0"><i class="bi bi-person-fill"></i></span>
-                                <input type="text" id="username" class="form-control border-0 bg-light" placeholder="Ingresa tu usuario" required>
+                                <span class="input-group-text">
+                                    <i class="bi bi-person-fill" style="color:#d0fc0b;"></i>
+                                </span>
+                                <input type="text" id="username" class="form-control"
+                                       placeholder="Ingresa tu usuario" required autocomplete="username">
                             </div>
                         </div>
+
                         <div class="mb-4">
-                            <label class="form-label fw-semibold text-secondary">Contraseña</label>
+                            <label class="form-label fw-semibold" style="color:#d0fc0b; font-size:0.85rem;">
+                                <i class="bi bi-key-fill me-1"></i>Contraseña
+                            </label>
                             <div class="input-group">
-                                <span class="input-group-text bg-dark text-warning border-0"><i class="bi bi-key-fill"></i></span>
-                                <input type="password" id="password" class="form-control border-0 bg-light" placeholder="Ingresa tu contraseña" required>
-                                <button class="btn btn-outline-secondary border-0" type="button" onclick="togglePassword()">
+                                <span class="input-group-text">
+                                    <i class="bi bi-key-fill" style="color:#d0fc0b;"></i>
+                                </span>
+                                <input type="password" id="password" class="form-control"
+                                       placeholder="Ingresa tu contraseña" required autocomplete="current-password">
+                                <button class="btn toggle-pass" type="button" id="togglePassBtn">
                                     <i class="bi bi-eye" id="eyeIcon"></i>
                                 </button>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-dark w-100 py-2 fw-semibold">
+
+                        <button type="submit" class="btn btn-login w-100 py-2">
                             <i class="bi bi-box-arrow-in-right me-2"></i>Iniciar Sesión
                         </button>
                     </form>
                 </div>
-                <div class="card-footer bg-light text-center py-3 border-0">
-                    <p class="mb-0 text-muted small">
+
+                <div class="card-footer text-center py-3">
+                    <p class="mb-0" style="color:#aaa; font-size:0.9rem;">
                         ¿No tienes cuenta?
-                        <a href="registro.html" class="text-warning fw-semibold text-decoration-none">Regístrate aquí</a>
+                        <a href="registro.html" class="text-warning fw-semibold text-decoration-none ms-1">
+                            Regístrate aquí
+                        </a>
                     </p>
                 </div>
             </div>
+
             <div class="text-center mt-3">
-                <small class="text-muted"><i class="bi bi-shield-check me-1 text-success"></i>Conexión segura</small>
+                <a href="../index.html" style="color:#aaa; font-size:0.85rem; text-decoration:none;">
+                    <i class="bi bi-arrow-left me-1"></i>Volver al inicio
+                </a>
             </div>
+
+            <div class="text-center mt-2">
+                <small style="color:#555;">
+                    <i class="bi bi-shield-check me-1" style="color:#28a745;"></i>Conexión segura
+                </small>
+            </div>
+
         </div>
     </div>
 </div>
 
 <script>
-    function togglePassword() {
+    // ── Toggle contraseña ──────────────────────────────────
+    document.getElementById('togglePassBtn').addEventListener('click', function () {
         const input = document.getElementById('password');
-        const icon = document.getElementById('eyeIcon');
+        const icon  = document.getElementById('eyeIcon');
         if (input.type === 'password') {
             input.type = 'text';
-            icon.classList.remove('bi-eye');
-            icon.classList.add('bi-eye-slash');
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
         } else {
             input.type = 'password';
-            icon.classList.remove('bi-eye-slash');
-            icon.classList.add('bi-eye');
-        }
-    }
-
-    async function cargarLogo() {
-        try {
-            const response = await fetch(window.API_URL + '/api/logo/activo');
-            const data = await response.json();
-            const logoContainer = document.getElementById('logoContainer');
-            if (logoContainer && data && data.imagenUrl) {
-                logoContainer.innerHTML = `<img src="${data.imagenUrl}" alt="Logo">`;
-            }
-        } catch(e) {
-            console.error('Error cargando logo:', e);
-        }
-    }
-
-    document.getElementById('loginForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        
-        Swal.fire({title: 'Iniciando sesión...', allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});
-        
-        try {
-            const response = await fetch(window.API_URL + '/api/usuarios');
-            const usuarios = await response.json();
-            const usuario = usuarios.find(u => u.username === username && u.password === password && u.estado === 1);
-            
-            if (usuario) {
-                localStorage.setItem('authToken', 'token-' + Date.now());
-                localStorage.setItem('userData', JSON.stringify(usuario));
-                
-                let redirectUrl = '../index.html';
-                if (usuario.rol === 'ADMIN') redirectUrl = 'dashboard/admin.html';
-                else if (usuario.rol === 'SUBADMIN') redirectUrl = 'dashboard/subadmin.html';
-                else redirectUrl = 'dashboard/user.html';
-                
-                Swal.fire({title: '¡Bienvenido!', text: `Hola ${usuario.nombreCompleto || usuario.username}`, icon: 'success', timer: 1500, showConfirmButton: false});
-                setTimeout(() => { window.location.href = redirectUrl; }, 1500);
-            } else {
-                Swal.fire('Error', 'Usuario o contraseña incorrectos', 'error');
-            }
-        } catch (error) {
-            Swal.fire('Error', 'Error al conectar con el servidor', 'error');
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
         }
     });
-    
+
+    // ── Cargar logo activo ─────────────────────────────────
+    async function cargarLogo() {
+        try {
+            const res  = await fetch(window.API_URL + '/api/logo/activo');
+            const data = await res.json();
+            const cont = document.getElementById('logoContainer');
+            if (data && data.imagenUrl) {
+                cont.innerHTML = `<img src="${data.imagenUrl}" alt="Logo">`;
+            }
+        } catch (e) { /* fallback ★ ya está en HTML */ }
+    }
+
+    // ── Redirigir según rol ────────────────────────────────
+    function redirigirPorRol(rol) {
+        // login.html está en pages/ así que dashboard/ es relativo a pages/
+        if (rol === 'ADMIN')    return 'dashboard/admin.html';
+        if (rol === 'SUBADMIN') return 'dashboard/subadmin.html';
+        return 'dashboard/user.html';
+    }
+
+    // ── Submit login ───────────────────────────────────────
+    document.getElementById('loginForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const username = document.getElementById('username').value.trim();
+        const password = document.getElementById('password').value;
+
+        if (!username || !password) {
+            Swal.fire('Campos vacíos', 'Completa usuario y contraseña', 'warning');
+            return;
+        }
+
+        Swal.fire({
+            title: 'Iniciando sesión…',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
+        try {
+            // Traer todos los usuarios y comparar (lógica original del proyecto)
+            const res      = await fetch(window.API_URL + '/api/usuarios');
+            if (!res.ok) throw new Error('No se pudo conectar al servidor');
+
+            const usuarios = await res.json();
+            const usuario  = usuarios.find(
+                u => u.username === username &&
+                     u.password === password &&
+                     u.estado   === 1
+            );
+
+            if (!usuario) {
+                Swal.fire('Error', 'Usuario o contraseña incorrectos', 'error');
+                return;
+            }
+
+            // Guardar sesión
+            localStorage.setItem('authToken', 'token-' + Date.now());
+            localStorage.setItem('userData', JSON.stringify(usuario));
+
+            const destino = redirigirPorRol(usuario.rol);
+
+            Swal.fire({
+                title: '¡Bienvenido!',
+                text: `Hola ${usuario.nombreCompleto || usuario.username} 👋`,
+                icon: 'success',
+                timer: 1500,
+                showConfirmButton: false
+            });
+
+            setTimeout(() => { window.location.href = destino; }, 1500);
+
+        } catch (err) {
+            console.error(err);
+            Swal.fire('Error de conexión', 'No se pudo conectar al servidor. Verifica que el backend esté activo.', 'error');
+        }
+    });
+
+    // ── Si ya hay sesión, redirigir directo ───────────────
+    (function checkSession() {
+        const token    = localStorage.getItem('authToken');
+        const userData = localStorage.getItem('userData');
+        if (token && userData) {
+            try {
+                const u = JSON.parse(userData);
+                if (u && u.rol) {
+                    window.location.href = redirigirPorRol(u.rol);
+                }
+            } catch (e) {
+                localStorage.removeItem('authToken');
+                localStorage.removeItem('userData');
+            }
+        }
+    })();
+
     cargarLogo();
 </script>
 </body>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,148 +14,351 @@
             : 'https://fnafhs-academy-backend.onrender.com';
     </script>
     <style>
-        .logo-circle { width: 90px; height: 90px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto; overflow: hidden; }
+        body {
+            padding-top: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(180deg, #4c0867 12%, #370505 40%);
+        }
+        .card {
+            background: rgba(26, 26, 46, 0.97);
+            backdrop-filter: blur(10px);
+        }
+        .logo-circle {
+            width: 80px;
+            height: 80px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            overflow: hidden;
+            border: 2px solid rgba(208, 252, 11, 0.4);
+        }
         .logo-circle img { width: 100%; height: 100%; object-fit: cover; }
-        body { padding-top: 0; min-height: 100vh; display: flex; align-items: center; background: linear-gradient(180deg, #4c0867 12%, #370505 40%); }
-        .card { background: rgba(26, 26, 46, 0.95); backdrop-filter: blur(10px); }
+        .logo-circle-fallback { font-size: 2rem; }
+
+        .form-control, .form-select {
+            background: #1a1a2e !important;
+            border: 1px solid rgba(208, 252, 11, 0.2) !important;
+            color: white !important;
+        }
+        .form-control:focus, .form-select:focus {
+            border-color: rgba(208, 252, 11, 0.6) !important;
+            box-shadow: 0 0 0 0.2rem rgba(208, 252, 11, 0.15) !important;
+        }
+        .form-control::placeholder { color: #555 !important; }
+        .form-control[readonly] { background: #0f0f1e !important; cursor: not-allowed; }
+
+        .input-group-text {
+            background: #0f0f1e !important;
+            border: 1px solid rgba(208, 252, 11, 0.2) !important;
+        }
+        .form-label { color: #d0fc0b; font-weight: 600; font-size: 0.82rem; }
+        .form-text  { color: #666 !important; font-size: 0.78rem; }
+
+        .btn-registro {
+            background: linear-gradient(135deg, #fd0000, #a725bb);
+            border: none;
+            color: white;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            transition: all 0.3s;
+        }
+        .btn-registro:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(208, 252, 11, 0.3);
+            color: white;
+        }
+        .btn-outline-login {
+            border: 1px solid rgba(208, 252, 11, 0.4);
+            color: #d0fc0b;
+            background: transparent;
+            transition: all 0.3s;
+        }
+        .btn-outline-login:hover {
+            background: rgba(208, 252, 11, 0.1);
+            border-color: #d0fc0b;
+            color: #d0fc0b;
+        }
+        .card-header { border-bottom: 1px solid rgba(208, 252, 11, 0.15) !important; }
+        .toggle-pass {
+            background: #0f0f1e !important;
+            border: 1px solid rgba(208, 252, 11, 0.2) !important;
+            color: #aaa !important;
+        }
+        .toggle-pass:hover { color: #d0fc0b !important; }
+        .section-divider {
+            border-color: rgba(208, 252, 11, 0.15);
+            margin: 8px 0;
+        }
     </style>
 </head>
 <body>
-<div class="container">
+<div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-12 col-sm-10 col-md-8 col-lg-6">
+
             <div class="card border-0 shadow-lg rounded-4 overflow-hidden">
                 <div class="card-header bg-dark text-white text-center border-0 py-4">
-                    <div class="logo-circle mb-3" id="logoContainer"></div>
-                    <h3 class="mb-0 fw-bold">FNAFHS ACADEMY</h3>
-                    <p class="text-warning small mb-0">Crear Nueva Cuenta</p>
+                    <div class="logo-circle mb-3" id="logoContainer">
+                        <span class="logo-circle-fallback">★</span>
+                    </div>
+                    <h3 class="mb-1 fw-bold" style="color:#d0fc0b;">FNAFHS ACADEMY</h3>
+                    <p class="mb-0" style="color:#aaa; font-size:0.85rem;">Crear nueva cuenta</p>
                 </div>
+
                 <div class="card-body p-4">
-                    <form id="registroForm">
+                    <form id="registroForm" novalidate>
                         <div class="row g-3">
+
+                            <!-- Usuario -->
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold text-secondary">Usuario *</label>
+                                <label class="form-label">
+                                    <i class="bi bi-person-fill me-1"></i>Usuario *
+                                </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-dark text-warning border-0"><i class="bi bi-person-fill"></i></span>
-                                    <input type="text" id="username" class="form-control border-0 bg-light" placeholder="usuario123" required>
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person-fill" style="color:#d0fc0b;"></i>
+                                    </span>
+                                    <input type="text" id="reg-username" class="form-control"
+                                           placeholder="usuario123" required autocomplete="username"
+                                           minlength="3" maxlength="50">
                                 </div>
+                                <div class="form-text">Mínimo 3 caracteres, sin espacios</div>
                             </div>
+
+                            <!-- Contraseña -->
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold text-secondary">Contraseña *</label>
+                                <label class="form-label">
+                                    <i class="bi bi-key-fill me-1"></i>Contraseña *
+                                </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-dark text-warning border-0"><i class="bi bi-key-fill"></i></span>
-                                    <input type="password" id="password" class="form-control border-0 bg-light" placeholder="********" required>
-                                    <button class="btn btn-outline-secondary border-0" type="button" onclick="togglePassword()">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-key-fill" style="color:#d0fc0b;"></i>
+                                    </span>
+                                    <input type="password" id="reg-password" class="form-control"
+                                           placeholder="Mínimo 6 caracteres" required
+                                           autocomplete="new-password" minlength="6">
+                                    <button class="btn toggle-pass" type="button" id="togglePassBtn">
                                         <i class="bi bi-eye" id="eyeIcon"></i>
                                     </button>
                                 </div>
+                                <div class="form-text">Mínimo 6 caracteres</div>
                             </div>
-                            <div class="col-md-12">
-                                <label class="form-label fw-semibold text-secondary">Nombre Completo</label>
+
+                            <!-- Nombre completo -->
+                            <div class="col-12">
+                                <label class="form-label">
+                                    <i class="bi bi-person-badge me-1"></i>Nombre Completo
+                                </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-dark text-warning border-0"><i class="bi bi-person-badge"></i></span>
-                                    <input type="text" id="nombreCompleto" class="form-control border-0 bg-light" placeholder="Juan Pérez García">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-person-badge" style="color:#d0fc0b;"></i>
+                                    </span>
+                                    <input type="text" id="reg-nombreCompleto" class="form-control"
+                                           placeholder="Juan Pérez García" maxlength="100">
                                 </div>
                             </div>
+
+                            <!-- Email -->
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold text-secondary">Email *</label>
+                                <label class="form-label">
+                                    <i class="bi bi-envelope-fill me-1"></i>Email *
+                                </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-dark text-warning border-0"><i class="bi bi-envelope-fill"></i></span>
-                                    <input type="email" id="email" class="form-control border-0 bg-light" placeholder="usuario@gmail.com" required>
+                                    <span class="input-group-text">
+                                        <i class="bi bi-envelope-fill" style="color:#d0fc0b;"></i>
+                                    </span>
+                                    <input type="email" id="reg-email" class="form-control"
+                                           placeholder="usuario@gmail.com" required
+                                           autocomplete="email">
                                 </div>
-                                <div class="form-text text-muted small">Debe ser @gmail.com</div>
+                                <div class="form-text">Debe ser @gmail.com</div>
                             </div>
+
+                            <!-- Teléfono -->
                             <div class="col-md-6">
-                                <label class="form-label fw-semibold text-secondary">Teléfono</label>
+                                <label class="form-label">
+                                    <i class="bi bi-telephone-fill me-1"></i>Teléfono
+                                </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-dark text-warning border-0"><i class="bi bi-telephone-fill"></i></span>
-                                    <input type="tel" id="telefono" class="form-control border-0 bg-light" placeholder="999 999 999">
+                                    <span class="input-group-text">
+                                        <i class="bi bi-telephone-fill" style="color:#d0fc0b;"></i>
+                                    </span>
+                                    <input type="tel" id="reg-telefono" class="form-control"
+                                           placeholder="999 999 999" maxlength="20">
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <label class="form-label fw-semibold text-secondary">Dirección</label>
+
+                            <!-- Dirección -->
+                            <div class="col-12">
+                                <label class="form-label">
+                                    <i class="bi bi-geo-alt-fill me-1"></i>Dirección
+                                </label>
                                 <div class="input-group">
-                                    <span class="input-group-text bg-dark text-warning border-0"><i class="bi bi-geo-alt-fill"></i></span>
-                                    <textarea id="direccion" class="form-control border-0 bg-light" rows="2" placeholder="Av. Principal 123, Lima"></textarea>
+                                    <span class="input-group-text">
+                                        <i class="bi bi-geo-alt-fill" style="color:#d0fc0b;"></i>
+                                    </span>
+                                    <textarea id="reg-direccion" class="form-control" rows="2"
+                                              placeholder="Av. Principal 123, Lima" maxlength="255"></textarea>
                                 </div>
                             </div>
-                        </div>
-                        <div class="d-grid gap-2 mt-4">
-                            <button type="submit" class="btn btn-dark py-2 fw-semibold"><i class="bi bi-person-check me-2"></i>Registrarse</button>
-                            <hr class="my-2">
-                            <div class="text-center">
-                                <small class="text-muted">¿Ya tienes cuenta?</small>
-                                <a href="login.html" class="btn btn-outline-warning btn-sm ms-2"><i class="bi bi-box-arrow-in-right me-1"></i>Iniciar Sesión</a>
+
+                            <!-- Botones -->
+                            <div class="col-12 mt-2">
+                                <button type="submit" class="btn btn-registro w-100 py-2">
+                                    <i class="bi bi-person-check me-2"></i>Crear Cuenta
+                                </button>
                             </div>
+
+                            <div class="col-12">
+                                <hr class="section-divider">
+                                <div class="text-center">
+                                    <span style="color:#aaa; font-size:0.85rem;">¿Ya tienes cuenta?</span>
+                                    <a href="login.html" class="btn btn-outline-login btn-sm ms-2">
+                                        <i class="bi bi-box-arrow-in-right me-1"></i>Iniciar Sesión
+                                    </a>
+                                </div>
+                            </div>
+
                         </div>
                     </form>
                 </div>
             </div>
-            <div class="text-center mt-3"><small class="text-muted"><i class="bi bi-shield-check me-1 text-success"></i>Tus datos están seguros</small></div>
+
+            <div class="text-center mt-3">
+                <a href="../index.html" style="color:#aaa; font-size:0.85rem; text-decoration:none;">
+                    <i class="bi bi-arrow-left me-1"></i>Volver al inicio
+                </a>
+            </div>
+
+            <div class="text-center mt-2">
+                <small style="color:#555;">
+                    <i class="bi bi-shield-check me-1" style="color:#28a745;"></i>Tus datos están seguros
+                </small>
+            </div>
+
         </div>
     </div>
 </div>
 
 <script>
-    function togglePassword() {
-        const input = document.getElementById('password');
-        const icon = document.getElementById('eyeIcon');
+    // ── Toggle contraseña ──────────────────────────────────
+    document.getElementById('togglePassBtn').addEventListener('click', function () {
+        const input = document.getElementById('reg-password');
+        const icon  = document.getElementById('eyeIcon');
         if (input.type === 'password') {
             input.type = 'text';
-            icon.classList.remove('bi-eye');
-            icon.classList.add('bi-eye-slash');
+            icon.classList.replace('bi-eye', 'bi-eye-slash');
         } else {
             input.type = 'password';
-            icon.classList.remove('bi-eye-slash');
-            icon.classList.add('bi-eye');
+            icon.classList.replace('bi-eye-slash', 'bi-eye');
         }
-    }
+    });
 
-    function validarEmail(email) { return /^[a-zA-Z0-9._-]+@gmail\.com$/.test(email); }
-
+    // ── Cargar logo ────────────────────────────────────────
     async function cargarLogo() {
         try {
-            const response = await fetch(window.API_URL + '/api/logo/activo');
-            const data = await response.json();
-            const logoContainer = document.getElementById('logoContainer');
-            if (logoContainer && data && data.imagenUrl) logoContainer.innerHTML = `<img src="${data.imagenUrl}" alt="Logo">`;
-        } catch(e) { console.error(e); }
+            const res  = await fetch(window.API_URL + '/api/logo/activo');
+            const data = await res.json();
+            const cont = document.getElementById('logoContainer');
+            if (data && data.imagenUrl) {
+                cont.innerHTML = `<img src="${data.imagenUrl}" alt="Logo">`;
+            }
+        } catch (e) { /* fallback ★ ya está en HTML */ }
     }
 
-    document.getElementById('registroForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const email = document.getElementById('email').value;
-        if (!validarEmail(email)) { Swal.fire("Error", "El email debe ser @gmail.com", "error"); return; }
+    // ── Validaciones ───────────────────────────────────────
+    function validarEmail(email) {
+        return /^[a-zA-Z0-9._+-]+@gmail\.com$/.test(email.trim());
+    }
 
-        const usuario = {
-            username: document.getElementById('username').value,
-            password: document.getElementById('password').value,
-            nombreCompleto: document.getElementById('nombreCompleto').value,
-            email: email,
-            telefono: document.getElementById('telefono').value,
-            direccion: document.getElementById('direccion').value,
-            rol: 'USER',
+    function validarUsername(username) {
+        return /^[a-zA-Z0-9._-]{3,50}$/.test(username.trim());
+    }
+
+    // ── Submit registro ────────────────────────────────────
+    document.getElementById('registroForm').addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const username      = document.getElementById('reg-username').value.trim();
+        const password      = document.getElementById('reg-password').value;
+        const nombreCompleto = document.getElementById('reg-nombreCompleto').value.trim();
+        const email         = document.getElementById('reg-email').value.trim();
+        const telefono      = document.getElementById('reg-telefono').value.trim();
+        const direccion     = document.getElementById('reg-direccion').value.trim();
+
+        // Validaciones
+        if (!username || !password || !email) {
+            Swal.fire('Campos requeridos', 'Usuario, contraseña y email son obligatorios', 'warning');
+            return;
+        }
+        if (!validarUsername(username)) {
+            Swal.fire('Usuario inválido', 'Solo letras, números, puntos, guiones. Mínimo 3 caracteres, sin espacios.', 'warning');
+            return;
+        }
+        if (password.length < 6) {
+            Swal.fire('Contraseña muy corta', 'La contraseña debe tener al menos 6 caracteres', 'warning');
+            return;
+        }
+        if (!validarEmail(email)) {
+            Swal.fire('Email inválido', 'El email debe ser una dirección @gmail.com válida', 'warning');
+            return;
+        }
+
+        const nuevoUsuario = {
+            username,
+            password,
+            nombreCompleto: nombreCompleto || '',
+            email,
+            telefono:  telefono  || '',
+            direccion: direccion || '',
+            rol:    'USER',
             estado: 1
         };
 
-        Swal.fire({title: "Registrando...", allowOutsideClick: false, didOpen: () => { Swal.showLoading(); }});
-        
+        Swal.fire({
+            title: 'Registrando cuenta…',
+            allowOutsideClick: false,
+            didOpen: () => Swal.showLoading()
+        });
+
         try {
-            const response = await fetch(window.API_URL + '/api/usuarios', {
-                method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(usuario)
+            const res = await fetch(window.API_URL + '/api/usuarios', {
+                method:  'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body:    JSON.stringify(nuevoUsuario)
             });
-            if (response.ok) {
-                Swal.fire({title: "¡Registro exitoso!", text: "Ahora puedes iniciar sesión", icon: "success", confirmButtonText: "Iniciar Sesión", confirmButtonColor: "#ffc107"})
-                    .then(() => { window.location.href = 'login.html'; });
+
+            if (res.ok) {
+                await Swal.fire({
+                    title: '¡Cuenta creada!',
+                    text:  'Tu cuenta fue registrada correctamente. Ahora puedes iniciar sesión.',
+                    icon:  'success',
+                    confirmButtonText:  'Ir al login',
+                    confirmButtonColor: '#fd0000'
+                });
+                // registro.html está en pages/, login.html también está en pages/
+                window.location.href = 'login.html';
+
             } else {
-                const error = await response.json();
-                throw new Error(error || 'Error al registrar usuario');
+                let msg = 'No se pudo crear la cuenta';
+                try {
+                    const body = await res.text();
+                    if (body) msg = body;
+                } catch (_) {}
+                Swal.fire('Error', msg, 'error');
             }
-        } catch (error) {
-            Swal.fire("Error", error.message, "error");
+
+        } catch (err) {
+            console.error(err);
+            Swal.fire('Error de conexión', 'No se pudo conectar al servidor. Verifica que el backend esté activo.', 'error');
         }
     });
-    
+
     cargarLogo();
 </script>
 </body>
